@@ -17,12 +17,10 @@ public class ElizaClientEndpoint {
 
   @OnOpen
   public void onOpen(Session session) {
-    LOGGER.info("Client Connected ... " + session.getId());
   }
 
   @OnMessage
   public void onMessage(String message, Session session) {
-    LOGGER.info("Client Message ... " + session.getId());
     if (message.equals("---")) {
       String line = con.readLine();
       session.getAsyncRemote().sendText(line);

@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ServerEndpoint(value = "/eliza")
+@ClientEndpoint
 public class ElizaServerEndpoint {
 
   private static final Logger LOGGER = Grizzly.logger(ElizaServerEndpoint.class);
@@ -20,21 +20,24 @@ public class ElizaServerEndpoint {
   @OnOpen
   public void onOpen(Session session) {
     LOGGER.info("Server Connected ... " + session.getId());
-    session.getAsyncRemote().sendText("The doctor is in.");
-    session.getAsyncRemote().sendText("What's on your mind?");
-    session.getAsyncRemote().sendText("---");
   }
 
   @OnMessage
   public void onMessage(String message, Session session) throws IOException {
-    LOGGER.info("Server Message ... " + session.getId());
-    Scanner currentLine = new Scanner(message.toLowerCase());
-    if (currentLine.findInLine("bye") == null) {
-      LOGGER.info("Server recieved \"" + message + "\"");
-      session.getAsyncRemote().sendText(eliza.respond(currentLine));
+    if (message.equals("WAKE UP, SERVER!!!!!!!!!")) {
+      session.getAsyncRemote().sendText("The doctor is in.");
+      session.getAsyncRemote().sendText("What's on your mind?");
       session.getAsyncRemote().sendText("---");
-    } else {
-      session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Alright then, goodbye!"));
+    }
+    else {
+      Scanner currentLine = new Scanner(message.toLowerCase());
+      if (currentLine.findInLine("bye") == null) {
+        LOGGER.info("Server received \"" + message + "\"");
+        session.getAsyncRemote().sendText(eliza.respond(currentLine));
+        session.getAsyncRemote().sendText("---");
+      } else {
+        session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Alright then, goodbye!"));
+      }
     }
   }
 
