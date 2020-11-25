@@ -3,7 +3,6 @@ package websockets;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.tyrus.client.ClientManager;
 import websockets.web.ElizaClientEndpoint;
-
 import javax.websocket.DeploymentException;
 import java.io.IOException;
 import java.net.URI;

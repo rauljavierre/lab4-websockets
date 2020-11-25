@@ -2,16 +2,11 @@ package websockets;
 
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.tyrus.client.ClientManager;
-import org.glassfish.tyrus.server.Server;
-import websockets.web.ElizaClientEndpoint;
 import websockets.web.ElizaServerEndpoint;
-
 import javax.websocket.DeploymentException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;

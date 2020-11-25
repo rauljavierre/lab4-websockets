@@ -38,7 +38,6 @@ public class ElizaTest {
 
         ClientManager doctor = ClientManager.createClient();
         doctor.connectToServer(ElizaServerEndpoint.class, new URI("ws://localhost:8025/websockets/broker/doctor"));
-
 	}
 
 	@Test(timeout = 5000)

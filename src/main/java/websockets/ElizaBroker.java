@@ -3,8 +3,6 @@ package websockets;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.tyrus.server.Server;
 import websockets.web.ElizaBrokerEndpoint;
-import websockets.web.ElizaServerEndpoint;
-
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.logging.Level;

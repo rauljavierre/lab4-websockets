@@ -2,10 +2,8 @@ package websockets.web;
 
 import org.glassfish.grizzly.Grizzly;
 import websockets.service.Eliza;
-
 import javax.websocket.*;
 import javax.websocket.CloseReason.CloseCodes;
-import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -24,19 +22,22 @@ public class ElizaServerEndpoint {
 
   @OnMessage
   public void onMessage(String message, Session session) throws IOException {
-    if (message.equals("WAKE UP, SERVER!!!!!!!!!")) {
-      session.getAsyncRemote().sendText("The doctor is in.");
-      session.getAsyncRemote().sendText("What's on your mind?");
-      session.getAsyncRemote().sendText("---");
-    }
-    else {
-      Scanner currentLine = new Scanner(message.toLowerCase());
-      if (currentLine.findInLine("bye") == null) {
-        LOGGER.info("Server received \"" + message + "\"");
-        session.getAsyncRemote().sendText(eliza.respond(currentLine));
-        session.getAsyncRemote().sendText("---");
-      } else {
-        session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Alright then, goodbye!"));
+    String client = message.split(";")[0];
+    if (!client.equals("/websockets/broker/doctor")) {
+      if (message.contains("WAKE UP, DOCTOR!!!!!!!!!")) {
+        session.getAsyncRemote().sendText(client + ";" + "The doctor is in.");
+        session.getAsyncRemote().sendText(client + ";" + "What's on your mind?");
+        session.getAsyncRemote().sendText(client + ";" + "---");
+      }
+      else {
+        Scanner currentLine = new Scanner(message.toLowerCase());
+        if (currentLine.findInLine("bye") == null) {
+          LOGGER.info("Server received \"" + message + "\"");
+          session.getAsyncRemote().sendText(client + ";" + eliza.respond(currentLine));
+          session.getAsyncRemote().sendText(client + ";" + "---");
+        } else {
+          session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Alright then, goodbye!"));
+        }
       }
     }
   }

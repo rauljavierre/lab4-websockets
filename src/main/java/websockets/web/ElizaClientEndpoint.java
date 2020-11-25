@@ -4,7 +4,6 @@ import console.TextDevice;
 import console.TextDevices;
 import org.glassfish.grizzly.Grizzly;
 import websockets.ElizaClient;
-
 import javax.websocket.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,8 +15,7 @@ public class ElizaClientEndpoint {
   private TextDevice con = TextDevices.defaultTextDevice();
 
   @OnOpen
-  public void onOpen(Session session) {
-  }
+  public void onOpen(Session session) {}
 
   @OnMessage
   public void onMessage(String message, Session session) {
@@ -38,10 +36,7 @@ public class ElizaClientEndpoint {
 
   @OnError
   public void onError(Session session, Throwable errorReason) {
-    LOGGER.log(Level.SEVERE,
-            String.format("Session %s closed because of %s", session.getId(), errorReason.getClass().getName()),
-            errorReason);
+    LOGGER.log(Level.SEVERE, String.format("Session %s closed because of %s", session.getId(), errorReason.getClass().getName()), errorReason);
     ElizaClient.LATCH.countDown();
   }
-
 }
